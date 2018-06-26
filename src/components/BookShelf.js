@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 import Shelf from './Shelf'
+import * as BooksAPI from '../BooksAPI'
 
 class BookShelf extends Component {
   state ={
-    //an array that holds a shelf
-    books:[ ]
+    books:[]
   }
+  // THIS FUNCTION CHANGES THE SHELF WHERE  A BOOK IS PUT
 
+      shelfChange = (book, shelf) => {
+
+        book.shelf = shelf
+            BooksAPI.update(book, shelf).then( () => {
+              this.setState({
+                books: this.state.books.filter( (b) => b.id !== book.id).concat([book])})
+            })
+      }
   render(){
-      let currentList = [
+      let currentlyReading = [
         {
           "title": "Enders Game",
           "authors": "Scott Card",
@@ -20,7 +29,7 @@ class BookShelf extends Component {
         "imageLinks" :"http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
       }
       ];
-      let wantList = [
+      let wantToRead = [
         {
           "title":"1776",
           "authors":"David McCullough",
@@ -33,7 +42,7 @@ class BookShelf extends Component {
         }
 
       ];
-      let readList = [
+      let read = [
         {
           "title":"The Hobbit",
           "authors":"J.R.R. Tolkien",
@@ -46,26 +55,41 @@ class BookShelf extends Component {
           }
 
       ];
-
+      const {books} = this.state
+      books.forEach(book => {
+    switch(book.shelf) {
+        case 'currentlyReading':
+            currentlyReading.push(book)
+            break
+        case 'wantToRead':
+            wantToRead.push(book)
+            break
+        case 'read':
+            read.push(book)
+            break
+        default:
+            break
+    }
+})
       const shelfList = [
     {
         name: 'Currently Reading',
-        books : currentList
+        books : currentlyReading
     },
     {
         name: 'Want To Read',
-        books : wantList
+        books : wantToRead
     },
     {
         name: 'Read',
-        books : readList
+        books : read
     }
 ]
 //rendering EACH SHELF with specific books from shelf.js
       return (
       <div className="list-books-content">
         <div>
-        { shelfList.map((shelf,index) =>( <Shelf key={index} title={shelf.name} books = {shelf.books} />))}
+        { shelfList.map((shelf,index) =>( <Shelf key={index} title={shelf.name} books = {shelf.books} shelfChange={this.shelfChange}/>))}
         </div>
       </div>
 
