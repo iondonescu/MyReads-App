@@ -9,7 +9,6 @@ class BookShelf extends Component {
   // THIS FUNCTION CHANGES THE SHELF WHERE  A BOOK IS PUT
 
       shelfChange = (book, shelf) => {
-
         book.shelf = shelf
             BooksAPI.update(book, shelf).then( () => {
               this.setState({
