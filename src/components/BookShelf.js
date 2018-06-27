@@ -5,7 +5,7 @@ class BookShelf extends Component {
 
   //rendering EACH SHELF with specific books from shelf.js
   render(){
-    const {title,books,shelfChange}= this.props
+    const {books,shelfChange}= this.props
     const shelfList = [
     {
       name: 'currentlyReading',
@@ -25,7 +25,7 @@ class BookShelf extends Component {
       return (
         <div className="list-books-content">
                 {shelfList.map((shelf) => (
-                    <div >
+                    <div key={shelf.name}>
                         <Shelf
                             shelf={shelf}
                             books={books.filter( (book) => book.shelf === shelf.name)}

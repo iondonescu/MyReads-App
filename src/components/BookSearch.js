@@ -7,22 +7,30 @@ class BookSearch extends Component {
   state = {
 		books: []
 	}
-
+// mount component
   componentDidMount() {
     BooksAPI.getAll().then( books => {
       this.setState({ books })
     })
   }
+
   //search by a title or an author
 
-    onSearch = (event) => {
-    if (event.target.value) {BooksAPI.search(event.target.value)
-      .then(books => {this.setState({ books: books })
-    })}
-    //search results are not  shown when all of the text is deleted
-      else {this.setState( { books: [] })}
-      }
+  onSearch = (event) => {
+    const value = event.target.value
 
+    if(value) {
+      BooksAPI.search(value).then(books => {
+        if(!books || books.hasOwnProperty('error')) {
+          this.setState({ books: [] })
+        } else {
+            this.setState({ books: books })
+        }
+      })
+    } else {
+      this.setState( { books: [] })
+    }
+  }
 // implementing sort function of shelves - similar with BookList.js
 
 shelfChange = (book, shelf) => {
@@ -53,13 +61,7 @@ shelfChange = (book, shelf) => {
           <ol className="books-grid">
           { books.map((book) => (
             <li key={book.id}>
-
-
-
               <Book book={book} shelfChange={shelfChange} />
-
-
-
             </li>
             )
           )

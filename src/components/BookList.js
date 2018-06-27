@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class BookList extends Component {
   render(){
-    const {title,shelfList,books,shelfChange} = this.props
+    const {title,books,shelfChange} = this.props
     //rendering entire page with title and BookShelf.js content
     return (
       <div className="list-books">

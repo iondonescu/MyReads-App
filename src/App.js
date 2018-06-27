@@ -24,17 +24,16 @@ shelfChange = (book, shelf) => {
 
   BooksAPI.update(book, shelf).then( ()=> {
     this.setState({
-      books: this.state.books.filter( (b) => b.title !== book.title).concat([ book ])})
+      books: this.state.books.filter( (b) => b.id !== book.id).concat([ book ])})
   })
-  //console.log(this.state.books)
+
 }
 
   render() {
-    const {books} = this.state
 
     return (
       <div className="app">
-      <Route exact path='/' render={() => (<BookList books={this.state.books} shelfChange={ this.shelfChange}/>)}/>
+      <Route exact path='/' render={() => (<BookList books={this.state.books} shelfChange ={this.shelfChange}/>)}/>
       <Route path='/search' render={() => (<BookSearch  books={this.state.books} shelfChange={this.shelfChange}/>)}/>
       </div>
     )
