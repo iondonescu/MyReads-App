@@ -20,7 +20,7 @@ class BookSearch extends Component {
     const value = event.target.value
 
     if(value) {
-      BooksAPI.search(value).then(books => {
+      BooksAPI.search(value).then((books) => {
         if(!books || books.hasOwnProperty('error')) {
           this.setState({ books: [] })
         } else {
