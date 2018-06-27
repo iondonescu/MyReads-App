@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Route } from 'react-router-dom'
 import BookList from './components/BookList'
 import BookSearch from './components/BookSearch'
