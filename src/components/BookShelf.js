@@ -1,63 +1,42 @@
 import React, { Component } from 'react'
 import Shelf from './Shelf'
-import * as BooksAPI from '../BooksAPI'
 
 class BookShelf extends Component {
-  state ={
-    books:[]
-  }
-  // THIS FUNCTION CHANGES THE SHELF WHERE  A BOOK IS PUT
 
-      shelfChange = (book, shelf) => {
-        book.shelf = shelf
-            BooksAPI.update(book, shelf).then( () => {
-              this.setState({
-                books: this.state.books.filter( (b) => b.id !== book.id).concat([book])})
-            })
-      }
+  //rendering EACH SHELF with specific books from shelf.js
   render(){
-      let currentlyReading = [ ];
-      let wantToRead = [ ];
-      let read = [ ];
-      const {books} = this.state
-      books.forEach(book => {
-    switch(book.shelf) {
-        case 'currentlyReading':
-            currentlyReading.push(book)
-            break
-        case 'wantToRead':
-            wantToRead.push(book)
-            break
-        case 'read':
-            read.push(book)
-            break
-        default:
-            break
-    }
-})
-      const shelfList = [
+    const {title,books,shelfChange}= this.props
+    const shelfList = [
     {
-        name: 'Currently Reading',
-        books : currentlyReading
+      name: 'currentlyReading',
+      title : 'Currently Reading'
     },
     {
-        name: 'Want To Read',
-        books : wantToRead
+      name: 'wantToRead',
+      title :'Want To Read'
     },
     {
-        name: 'Read',
-        books : read
+      name: 'read',
+      title : 'Read'
     }
-]
-//rendering EACH SHELF with specific books from shelf.js
+    ]
+
+    console.log(books)
       return (
-      <div className="list-books-content">
-        <div>
-        { shelfList.map((shelf,index) =>( <Shelf key={index} title={shelf.name} books = {shelf.books} shelfChange={this.shelfChange}/>))}
+        <div className="list-books-content">
+                {shelfList.map((shelf) => (
+                    <div >
+                        <Shelf
+                            shelf={shelf}
+                            books={books.filter( (book) => book.shelf === shelf.name)}
+                            shelfChange={shelfChange}
+                        />
+                    </div>
+                ))}
         </div>
-      </div>
 
     )
   }
+
 }
 export default BookShelf

@@ -39,7 +39,7 @@ shelfChange = (book, shelf) => {
 
   render(){
   const {books}=this.state
-
+  const {shelfChange}=this.props
     return(
       <div className="search-books">
         <div className="search-books-bar">
@@ -56,7 +56,7 @@ shelfChange = (book, shelf) => {
 
 
 
-              <Book book={book} />
+              <Book book={book} shelfChange={shelfChange} />
 
 
 
